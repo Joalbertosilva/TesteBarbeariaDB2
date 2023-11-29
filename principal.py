@@ -97,7 +97,7 @@ def marcar():
         print(f'Muito bem {nome}, agora escolha o horário!')
         print()
 
-        cursor.execute("SELECT dia, horario FROM horarios")
+        cursor.execute("SELECT dia, horario FROM horario")
         horas = cursor.fetchall()
 
         print("Horários indisponíveis:")
@@ -167,7 +167,7 @@ def marcar():
             conexao.commit()
             print(f'Muito bem {nome}, processo finalizado. O seu número da agenda é {idAgenda}, guarde-o caso precise remarcar.')
             print('Horário marcado com sucesso, esperamos por você!')
-            cursor.execute(f"""INSERT INTO horarios (idHorarios, dia, horario) VALUES ({idAgenda}, '{dia_escolhido}', '{horario_escolhido}')""")
+            cursor.execute(f"""INSERT INTO horario (dia, horario, idAgenda) VALUES ('{dia_escolhido}', '{horario_escolhido}', {idAgenda})""")
             conexao.commit()
             cursor.execute(f"SELECT COUNT(*) FROM agenda WHERE idUsuario = {idUsuario}")
             quantidade_cortes = cursor.fetchone()[0]
@@ -179,7 +179,7 @@ def marcar():
             # ou aplicar diretamente na lógica de pagamento
 
             if quantidade_cortes > 3:
-                cursor.execute(f"UPDATE agenda SET cortes = 0 WHERE idUsuario = {idUsuario}")
+                cursor.execute(f"UPDATE agenda SET corte = 0 WHERE idUsuario = {idUsuario}")
                 conexao.commit()
        
         else:
@@ -201,17 +201,17 @@ def remarcar():
     )
     conexao = pyodbc.connect(dados_conexao)
     cursor = conexao.cursor()
-
-    nome = input('Digite seu nome: ')
-    cursor.execute("SELECT dia, horario FROM horarios")
+    cursor.execute("SELECT dia, horario FROM horario")
     horas = cursor.fetchall()
 
+    # Se a agenda existe, atualize os dados
+    novo_nome = input('Digite seu nome: ')
     print("Horários indisponíveis:")
     for hora in horas:
         dia, horario = hora  # Desempacotando os valores retornados
         print(f"{dia} - {horario}\n")
 
-    print()
+        print()
 
     dias = {
         '1': 'Segunda-Feira',
@@ -220,15 +220,15 @@ def remarcar():
         '4': 'Quinta-Feira',
         '5': 'Sexta-Feira',
         '6': 'Sábado',
-    }
+        }
     data = input('''Escolha o dia.
-1 - Segunda-Feira
-2 - Terça-Feira
-3 - Quarta-Feira
-4 - Quinta-Feira
-5 - Sexta-Feira
-6 - Sábado
-: ''')
+    1 - Segunda-Feira
+    2 - Terça-Feira
+    3 - Quarta-Feira
+    4 - Quinta-Feira
+    5 - Sexta-Feira
+    6 - Sábado
+    : ''')
     if data in dias:
         novo_dia = dias[data]
     else:
@@ -245,16 +245,16 @@ def remarcar():
         '5': '12:00',
         '6': '13:00',
         '7': '14:00',
-    }
+        }
     horario = input('''Escolha o horário
-1 - 08:00
-2 - 09:00
-3 - 10:00
-4 - 11:00
-5 - 12:00
-6 - 14:00
-7 - 15:00
-: ''')
+    1 - 08:00
+    2 - 09:00
+    3 - 10:00
+    4 - 11:00
+    5 - 12:00
+    6 - 14:00
+    7 - 15:00   
+    : ''')
     if horario in horarios:
         novo_horario = horarios[horario]
     else:
@@ -265,23 +265,24 @@ def remarcar():
 
     cursor.execute("SELECT * FROM agenda WHERE idAgenda = ?", id_agenda)
     agenda_existente = cursor.fetchone()
-
     if agenda_existente:
-        # Se a agenda existe, atualize os dados
         try:
-            cursor.execute("UPDATE agenda SET nome = ?, horario = ?, dia = ? WHERE idAgenda = ?", nome, novo_horario, novo_dia, id_agenda)
+            cursor.execute("UPDATE agenda SET nome = ?, horario = ?, dia = ? WHERE idAgenda = ?", (novo_nome, novo_horario, novo_dia, id_agenda))
             conexao.commit()
             print('Agenda remarcada com sucesso no banco de dados!')
-            cursor.execute("UPDATE horarios SET dia = ?, horario = ?", novo_horario, novo_dia)
+
+        # Atualização na tabela 'horario'
+            cursor.execute("UPDATE horario SET dia = ?, horario = ? WHERE idAgenda = ?", (novo_dia, novo_horario, id_agenda))
             conexao.commit()
         except pyodbc.Error as ex:
             print('Não foi possível remarcar a agenda. Tente novamente.', ex)
     else:
-       pass
+        print('Agenda não encontrada.')
+       
 
     # Atualizar o arquivo de texto com a nova informação
 
-    conexao.close()
+        conexao.close()
 
 while True:
     menu = int(input('''

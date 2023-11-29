@@ -1,0 +1,31 @@
+
+
+tabelas:
+#Primeiro criei o banco de dados Barbearia
+create database Barbearia
+
+use Barbearia #(serve para poder ausar somente o banco de dados Barbearia --- Desse jeito tudo que eu crio vai diretamente para esse banco de dados)
+create table usuario(
+    idUsuario integer primary key,
+    email varchar(45),
+    senha varchar(45),
+    nome varchar(45)
+);
+
+create table agenda(
+    idAgenda integer primary key,
+    nome varchar(45),
+    horario varchar(45),
+    dia varchar(45),
+    corte varchar(45)
+);
+
+create table horarios(
+    idHorarios integer primary key,
+    dia varchar(45)
+    horario varchar(45);
+);
+
+#por enquanto foi isso de tabela que eu fiz, mas to querendo fazer alterações em horarios
+#mudanças que eu quero fazer ---- adicionar o id do usuario de uma maneira de foreign key, caso necessário, e talvez retirar a chave
+---- primaria da tabela horarios. E tem que mudar o nome dela tbm. Não pode deixar no plural
