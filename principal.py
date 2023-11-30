@@ -12,7 +12,7 @@ print()
 print('Conexão realizada!')
 
 cursor = conexao.cursor()
-def cadastro():    
+def cadastro(idUsuario, email, senha, nome):    
     dados_conexao = (
     "DRIVER={SQL Server};"
     "SERVER=DESKTOP-E5PU5HI;"
@@ -20,16 +20,6 @@ def cadastro():
     )
     conexao = pyodbc.connect(dados_conexao)
     cursor = conexao.cursor()
-    idUsers = []
-    idUsuario = randint(1, 1000)
-    idUsers.append(idUsuario)
-    while idUsuario == idUsers:
-        idUsuario = randint(1, 1000)
-    idUsers.append(idUsuario)
-    print()
-    email = input('Digite seu e-mail ou nome de usuário: ')
-    senha = getpass.getpass(prompt='Crie sua senha: ')
-    nome = input('Insira seu nome: ')
 
     # Executar a consulta para verificar se o usuário já existe
     cursor.execute(f"SELECT * FROM usuario WHERE email = '{email}'")
