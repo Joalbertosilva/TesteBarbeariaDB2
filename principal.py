@@ -1,7 +1,6 @@
 import pyodbc
 from random import randint
 import getpass
-
 dados_conexao = (
     "DRIVER={SQL Server};"
     "SERVER=DESKTOP-E5PU5HI;"
@@ -31,11 +30,32 @@ def cadastro(idUsuario, email, senha, nome):
                         VALUES ({idUsuario}, '{email}', '{senha}', '{nome}')""")
         conexao.commit()
         print('Cadastro realizado com sucesso!')
+        print(f"Seu id de usuaio é:{idUsuario}")
     else:
         print('Nome de usuário já utilizado ou email inválido, tente novamente.')
 
-def login():
-    # Conectar ao banco de dados
+def login(email, senha):
+    try:
+        dados_conexao = (
+            "DRIVER={SQL Server};"
+            "SERVER=DESKTOP-E5PU5HI;"
+            "DATABASE=Barbearia;"
+        )
+        conexao = pyodbc.connect(dados_conexao)
+        cursor = conexao.cursor()
+
+        # Verificar se o email e senha correspondem a um usuário registrado
+        cursor.execute(f"SELECT * FROM usuario WHERE email = '{email}' AND senha = '{senha}'")
+        usuario = cursor.fetchone()
+
+        conexao.close()
+
+        return usuario is not None  # Retorna True se o usuário existe, senão retorna False
+    except Exception as e:
+        print(f"Ocorreu um erro ao tentar fazer login: {str(e)}")
+        return False
+
+def marcar(idUsuario):
     dados_conexao = (
     "DRIVER={SQL Server};"
     "SERVER=DESKTOP-E5PU5HI;"
@@ -43,35 +63,6 @@ def login():
     )
     conexao = pyodbc.connect(dados_conexao)
     cursor = conexao.cursor()
-
-    email = input('Digite seu e-mail ou nome de usuário: ')
-    senha = getpass.getpass(prompt='Digite sua senha: ')
-    # Verificar se o email e senha correspondem a um usuário registrado
-    cursor.execute(f"SELECT * FROM usuario WHERE email = '{email}' AND senha = '{senha}'")
-    usuario = cursor.fetchone()
-
-    if usuario:
-        print('Login bem-sucedido!')
-        print()
-        marcar()
-        # Aqui você pode adicionar qualquer lógica adicional que deseja executar após o login ser bem-sucedido
-    else:
-        print('E-mail ou senha incorretos. Tente novamente.')
-        login()
-    conexao.close()
-    print()
-
-def marcar():
-    dados_conexao = (
-    "DRIVER={SQL Server};"
-    "SERVER=DESKTOP-E5PU5HI;"
-    "DATABASE=Barbearia;"
-    )
-    conexao = pyodbc.connect(dados_conexao)
-    cursor = conexao.cursor()
-    idUsuario = int(input('''
-    Insira seu id usuario para poder acumular pontos no nosso salão.
-    Quando você atingir a meta de 3 cortes em sequência, receberá um desconto: '''))
     cursor.execute(f"SELECT * FROM usuario where idUsuario = {idUsuario}")
     verificando = cursor.fetchall()
 
@@ -86,7 +77,6 @@ def marcar():
         nome = input('Digite seu nome: ')
         print(f'Muito bem {nome}, agora escolha o horário!')
         print()
-
         cursor.execute("SELECT dia, horario FROM horario")
         horas = cursor.fetchall()
 
@@ -175,7 +165,6 @@ def marcar():
         else:
             print('Horário indisponível. Tente novamente.')
     # Se desejar, pode chamar a função marcar() para tentar novamente
-            marcar()
             print()
         cursor.execute(f"SELECT * FROM agenda WHERE idUsuario = {idAgenda}")
         agenda = cursor.fetchone()
@@ -273,26 +262,6 @@ def remarcar():
     # Atualizar o arquivo de texto com a nova informação
 
         conexao.close()
-
-while True:
-    menu = int(input('''
-    Escolha uma opção      
-    1. Cadastro
-    2. Login
-    3. Remarcar
-    4. Sair
-    : '''))
-
-    if menu == 1:
-        cadastro()
-    elif menu == 2:
-        login()
-    elif menu == 3:
-        remarcar()
-    elif menu == 4:
-        break;
-    elif menu >= 5:
-        print('Opção inválida.') 
 
 
 
