@@ -1,5 +1,4 @@
 
-
 tabelas:
 #Primeiro criei o banco de dados Barbearia
 create database Barbearia
@@ -20,11 +19,12 @@ create table agenda(
     corte varchar(45)
 );
 
-create table horarios(
+create table horario(
     idHorarios integer primary key,
-    dia varchar(45)
-    horario varchar(45);
+    dia varchar(45),
+    horario varchar(45)
 );
+
 
 #por enquanto foi isso de tabela que eu fiz, mas to querendo fazer alterações em horarios
 #mudanças que eu quero fazer ---- adicionar o id do usuario de uma maneira de foreign key, caso necessário, e talvez retirar a chave
