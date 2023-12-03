@@ -30,7 +30,7 @@ def cadastro(idUsuario, email, senha, nome):
                         VALUES ({idUsuario}, '{email}', '{senha}', '{nome}')""")
         conexao.commit()
         print('Cadastro realizado com sucesso!')
-        print(f"Seu id de usuaio é:{idUsuario}")
+        print(f"Seu id de usuario é: {idUsuario}")
     else:
         print('Nome de usuário já utilizado ou email inválido, tente novamente.')
 
@@ -55,89 +55,60 @@ def login(email, senha):
         print(f"Ocorreu um erro ao tentar fazer login: {str(e)}")
         return False
 
-def marcar(idUsuario):
-    dados_conexao = (
-    "DRIVER={SQL Server};"
-    "SERVER=DESKTOP-E5PU5HI;"
-    "DATABASE=Barbearia;"
-    )
-    conexao = pyodbc.connect(dados_conexao)
-    cursor = conexao.cursor()
-    cursor.execute(f"SELECT * FROM usuario where idUsuario = {idUsuario}")
-    verificando = cursor.fetchall()
+def marcar(idUsuario, nome, data, horario):
+    try:
+        dados_conexao = (
+        "DRIVER={SQL Server};"
+        "SERVER=DESKTOP-E5PU5HI;"
+        "DATABASE=Barbearia;"
+        )
+        conexao = pyodbc.connect(dados_conexao)
+        cursor = conexao.cursor()
+        cursor.execute(f"SELECT * FROM usuario where idUsuario = {idUsuario}")
+        verificando = cursor.fetchall()
 
-    if verificando:
+        
         agenda = []
         idAgenda = randint(1, 1000)
         agenda.append(idAgenda)
         while idAgenda == agenda:
             idAgenda = randint(1, 1000)
         agenda.append(idAgenda)
-        print()
-        nome = input('Digite seu nome: ')
-        print(f'Muito bem {nome}, agora escolha o horário!')
-        print()
-        cursor.execute("SELECT dia, horario FROM horario")
-        horas = cursor.fetchall()
-
-        print("Horários indisponíveis:")
-        for hora in horas:
-            dia, horario = hora  # Desempacotando os valores retornados
-            print(f"{dia} - {horario}\n")
-
+            
         print()
 
         dias = {
-        '1': 'Segunda-Feira',
-        '2': 'Terça-Feira',
-        '3': 'Quarta-Feira',
-        '4': 'Quinta-Feira',
-        '5': 'Sexta-Feira',
-        '6': 'Sábado',
-    }
+            '1': 'Segunda-Feira',
+            '2': 'Terça-Feira',
+            '3': 'Quarta-Feira',
+            '4': 'Quinta-Feira',
+            '5': 'Sexta-Feira',
+            '6': 'Sábado',
+        }
 
-        data = input('''Escolha o dia.
-        1 - Segunda-Feira
-        2 - Terça-Feira
-        3 - Quarta-Feira
-        4 - Quinta-Feira
-        5 - Sexta-Feira
-        6 - Sábado
-        : ''')
 
         if data in dias:
             dia_escolhido = dias[data]
         else:
             print('Opção de dia inválida.')
-    # Aqui você pode decidir se deseja sair do programa ou lidar com o erro de outra forma
+        # Aqui você pode decidir se deseja sair do programa ou lidar com o erro de outra forma
             exit()
 
         horarios = {
-            '1': '08:00',
-            '2': '09:00',
-            '3': '10:00',
-            '4': '11:00',
-            '5': '12:00',
-            '6': '14:00',
-            '7': '15:00',
-        }
-
-        print()
-        horario = input('''Escolha o horário
-        1 - 08:00
-        2 - 09:00
-        3 - 10:00
-        4 - 11:00
-        5 - 12:00
-        6 - 14:00
-        7 - 15:00
-        : ''')
+                '1': '08:00',
+                '2': '09:00',
+                '3': '10:00',
+                '4': '11:00',
+                '5': '12:00',
+                '6': '14:00',
+                '7': '15:00',
+            }
 
         if horario in horarios:
             horario_escolhido = horarios[horario]
         else:
             print('Opção de horário inválida.')
-    # Aqui você pode decidir se deseja sair do programa ou lidar com o erro de outra forma
+        # Aqui você pode decidir se deseja sair do programa ou lidar com o erro de outra forma
         cursor.execute(f"SELECT * FROM agenda WHERE horario = '{horario_escolhido}' AND dia = '{dia_escolhido}'")
         agenda = cursor.fetchone()
         corte = 'cabelo'
@@ -152,27 +123,26 @@ def marcar(idUsuario):
             cursor.execute(f"SELECT COUNT(*) FROM agenda WHERE idUsuario = {idUsuario}")
             quantidade_cortes = cursor.fetchone()[0]
 
-            if quantidade_cortes == 3:
-                print('Parabéns! Você ganhou um desconto de 5% no próximo corte!')
-            # Aqui você pode aplicar o desconto ao próximo corte para o usuário
-            # Por exemplo, atualizar um campo na tabela de usuários para marcar o desconto
-            # ou aplicar diretamente na lógica de pagamento
+        if quantidade_cortes == 3:
+            print('Parabéns! Você ganhou um desconto de 5% no próximo corte!')
+                # Aqui você pode aplicar o desconto ao próximo corte para o usuário
+                # Por exemplo, atualizar um campo na tabela de usuários para marcar o desconto
+                # ou aplicar diretamente na lógica de pagamento
+        else:
+            pass
 
-            if quantidade_cortes > 3:
-                cursor.execute(f"UPDATE agenda SET corte = 0 WHERE idUsuario = {idUsuario}")
-                conexao.commit()
-       
+        if quantidade_cortes > 3:
+            cursor.execute(f"UPDATE agenda SET corte = 0 WHERE idUsuario = {idUsuario}")
+            conexao.commit()
+        
         else:
             print('Horário indisponível. Tente novamente.')
-    # Se desejar, pode chamar a função marcar() para tentar novamente
+        # Se desejar, pode chamar a função marcar() para tentar novamente
             print()
-        cursor.execute(f"SELECT * FROM agenda WHERE idUsuario = {idAgenda}")
-        agenda = cursor.fetchone()
-    else:
-        print()
-        print('IdUsuario inexistente. Tente novamente. ')
-
-def remarcar():
+    except Exception as e:
+        print(f"Ocorreu um erro ao tentar fazer login: {str(e)}")
+        return False
+def remarcar(novo_nome, data, horario, id_agenda):
     dados_conexao = (
         "DRIVER={SQL Server};"
         "SERVER=DESKTOP-E5PU5HI;"
@@ -181,16 +151,6 @@ def remarcar():
     conexao = pyodbc.connect(dados_conexao)
     cursor = conexao.cursor()
     cursor.execute("SELECT dia, horario FROM horario")
-    horas = cursor.fetchall()
-
-    # Se a agenda existe, atualize os dados
-    novo_nome = input('Digite seu nome: ')
-    print("Horários indisponíveis:")
-    for hora in horas:
-        dia, horario = hora  # Desempacotando os valores retornados
-        print(f"{dia} - {horario}\n")
-
-        print()
 
     dias = {
         '1': 'Segunda-Feira',
@@ -200,14 +160,6 @@ def remarcar():
         '5': 'Sexta-Feira',
         '6': 'Sábado',
         }
-    data = input('''Escolha o dia.
-    1 - Segunda-Feira
-    2 - Terça-Feira
-    3 - Quarta-Feira
-    4 - Quinta-Feira
-    5 - Sexta-Feira
-    6 - Sábado
-    : ''')
     if data in dias:
         novo_dia = dias[data]
     else:
@@ -225,22 +177,11 @@ def remarcar():
         '6': '13:00',
         '7': '14:00',
         }
-    horario = input('''Escolha o horário
-    1 - 08:00
-    2 - 09:00
-    3 - 10:00
-    4 - 11:00
-    5 - 12:00
-    6 - 14:00
-    7 - 15:00   
-    : ''')
     if horario in horarios:
         novo_horario = horarios[horario]
     else:
         print('Opção de horário inválida.')
         return
-
-    id_agenda = input('Digite o ID da agenda a ser remarcada: ')
 
     cursor.execute("SELECT * FROM agenda WHERE idAgenda = ?", id_agenda)
     agenda_existente = cursor.fetchone()
