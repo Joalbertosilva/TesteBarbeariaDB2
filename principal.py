@@ -183,16 +183,16 @@ def remarcar(novo_nome, data, horario, id_agenda):
         print('Opção de horário inválida.')
         return
 
-    cursor.execute("SELECT * FROM agenda WHERE idAgenda = ?", id_agenda)
+    cursor.execute("SELECT * FROM agenda WHERE idAgenda = ?", id_agenda,)
     agenda_existente = cursor.fetchone()
     if agenda_existente:
         try:
-            cursor.execute("UPDATE agenda SET nome = ?, horario = ?, dia = ? WHERE idAgenda = ?", (novo_nome, novo_horario, novo_dia, id_agenda))
+            cursor.execute("UPDATE agenda SET nome = ?, horario = ?, dia = ? WHERE idAgenda = ?", (novo_nome, novo_horario, novo_dia, id_agenda,))
             conexao.commit()
             print('Agenda remarcada com sucesso no banco de dados!')
 
         # Atualização na tabela 'horario'
-            cursor.execute("UPDATE horario SET dia = ?, horario = ? WHERE idAgenda = ?", (novo_dia, novo_horario, id_agenda))
+            cursor.execute("UPDATE horario SET dia = ?, horario = ? WHERE idAgenda = ?", (novo_dia, novo_horario, id_agenda,))
             conexao.commit()
         except pyodbc.Error as ex:
             print('Não foi possível remarcar a agenda. Tente novamente.', ex)
