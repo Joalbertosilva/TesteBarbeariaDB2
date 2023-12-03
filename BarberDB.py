@@ -40,14 +40,24 @@ def marcar_corte():
     nome = input('Digite seu nome: ')
 
     # Aqui você pode obter o horário e dia escolhidos pelo cliente
-    print(f'Muito bem {nome}, agora escolha o horário!')
+    print(f'Muito bem {nome}, agora escolha o serviço e a data!')
+    corte = input('''\nEsolha um dos serviços abaixo: 
+            1. Cabelo, corte normal: R$15
+            2. Cabelo + sobrancelha: R$20
+            3. Cabelo + Barba: R$30
+            4. Cabelo + Sobrancelha + Barba: R$35
+            5. Sobrancelha: R$7 
+            6. Barba: R$15
+            7. Barbaterapia + Corte: R$50
+            8. Platinar + Corte: R$100
+            : ''') 
     print()
     cursor.execute("SELECT dia, horario FROM horario")
     horas = cursor.fetchall()
     print("Horários indisponíveis:")
     for hora in horas:
         dia, horario = hora  # Desempacotando os valores retornados
-        print(f"{dia} - {horario}\n")
+        print(f"|{dia} - {horario}|")
 
         print()
     data = input('''Escolha o dia.
@@ -68,8 +78,7 @@ def marcar_corte():
             6 - 14:00
             7 - 15:00
             : ''')
-
-    marcar(idUsuario, nome, data, horario)
+    marcar(idUsuario, nome, data, horario, corte)
     
 def remarcar_corte():
     dados_conexao = (
@@ -124,6 +133,7 @@ while True:
     elif menu == 3:
         remarcar_corte()
     elif menu == 4:
+        print('Atendimento encerrado, volte sempre!')
         break;
     elif menu >= 5:
         print('Opção inválida.') 
