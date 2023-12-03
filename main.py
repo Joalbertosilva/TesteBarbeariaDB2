@@ -54,7 +54,6 @@ def usuario_horario():
         ORDER BY idAgenda DESC
     )
 '''
-
 # Executando a consulta com parâmetros
     cursor.execute(sql_query, usuario, usuario)
 
@@ -66,4 +65,27 @@ def usuario_horario():
         print(f'Nome: {resultado.nome}, Horário: {resultado.horario}, Dia: {resultado.dia}, Corte: {resultado.corte}')
     else:
         print('Nenhum registro encontrado para este usuário.')
-usuario_horario()
+
+def usuario_agenda():
+    cursor = conexao.cursor()
+    sql_query = '''
+    SELECT u.idUsuario, a.nome, a.dia, a.horario
+    FROM usuario u
+    INNER JOIN agenda a ON u.idUsuario = a.idUsuario
+'''
+    cursor.execute(sql_query)
+    resultado = cursor.fetchall()
+    columns = [column[0] for column in cursor.description]
+
+    # Imprime os nomes das colunas separados por barras com espaços adicionados
+    print(f"{columns[0]:^10} | {columns[1]:^20} | {columns[2]:^20} | {columns[3]:^20}")
+    print("-" * 70)
+
+    # Imprimir os resultados
+    for row in resultado:
+        print(f"{row[0]:^10} | {row[1]:^20} | {row[2]:^20} | {row[3]:^20}")
+
+
+usuario_agenda()
+
+

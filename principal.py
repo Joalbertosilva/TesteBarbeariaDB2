@@ -170,10 +170,11 @@ def remarcar(novo_nome, data, horario, id_agenda):
         }
     if data in dias:
         novo_dia = dias[data]
-    else:
-        print('Opção de dia inválida. Escolha novamente')
-        remarcar()
-        return
+        try:
+            novo_dia = dias[data]
+        except KeyError:
+            print("Opção de escolha não foi validada. Encontramos um erro na sua escolha, tente marcar novamente e respeite os numeros apresentados.")
+            return False
 
     print()
     horarios = {
@@ -187,9 +188,11 @@ def remarcar(novo_nome, data, horario, id_agenda):
         }
     if horario in horarios:
         novo_horario = horarios[horario]
-    else:
-        print('Opção de horário inválida.')
-        return
+    try:
+        novo_horario = horarios[horario]
+    except KeyError:
+        print("Opção de escolha não foi validada. Encontramos um erro na sua escolha, tente marcar novamente e respeite os numeros apresentados.")
+        return False
 
     cursor.execute("SELECT * FROM agenda WHERE idAgenda = ?", id_agenda,)
     agenda_existente = cursor.fetchone()

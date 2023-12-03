@@ -3,7 +3,7 @@ tabelas:
 #Primeiro criei o banco de dados Barbearia
 create database Barbearia
 
-use Barbearia #(serve para poder ausar somente o banco de dados Barbearia --- Desse jeito tudo que eu crio vai diretamente para esse banco de dados)
+use Barbearia #(serve para poder usar somente o banco de dados Barbearia --- Desse jeito tudo que eu crio vai diretamente para esse banco de dados)
 create table usuario(
     idUsuario integer primary key,
     email varchar(45),
@@ -16,14 +16,17 @@ create table agenda(
     nome varchar(45),
     horario varchar(45),
     dia varchar(45),
+    idUsuario integer not null references usuario(idUsuario),
     corte varchar(45)
 );
 
 create table horario(
-    idHorarios integer primary key,
     dia varchar(45),
-    horario varchar(45)
+    horario varchar(45),
+    idUsuario integer not null references usuario(idUsuario)
 );
+
+como realizar um inner join entre usuario e horario. onde eu vou receber o idUsuario e ele vai procurar
 
 
 #por enquanto foi isso de tabela que eu fiz, mas to querendo fazer alterações em horarios
