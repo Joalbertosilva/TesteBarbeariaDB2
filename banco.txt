@@ -1,4 +1,18 @@
 
+
+1. Utilização da biblioteca pyodbc para possibilitar a conexão com o banco de dados e o programa SQL Server
+dados_conexao = (
+    "DRIVER={SQL Server};"
+    "SERVER=DESKTOP-E5PU5HI;"
+    "DATABASE=Barbearia;"
+)
+conexao = pyodbc.connect(dados_conexao)
+print()
+print('Conexão realizada!')
+cursor = conexao.cursor()
+
+
+
 tabelas:
 #Primeiro criei o banco de dados Barbearia
 create database Barbearia

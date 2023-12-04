@@ -215,9 +215,3 @@ def remarcar(novo_nome, data, horario, id_agenda):
 
 
 
-#adicionar dois atributos e agenda, o id do usuario e o corte escolhido. 
-#idUsuario foreign key + corte varchar
-#fazer o programa ler a quantidade de cortes do cliente, quando ele chegar em 3 ele ganha um desconto de 5%. 
-#Após isso ele apaga do sistema pra sempre ficar na contagem até 3
-#criar uma tabela para realizar um desconto. la ele vai receber o seu id e toda vez ele vai inserir, assim vai realizar a leitura
-#receber um idusuario para armazenar a quantidade de cortes e dar o desconto se esse id tiver na tabela num total de 3 vezes
