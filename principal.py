@@ -127,9 +127,8 @@ def marcar(idUsuario, nome, data, horario, corte):
         # Aqui você pode decidir se deseja sair do programa ou lidar com o erro de outra forma
         cursor.execute(f"SELECT * FROM agenda WHERE horario = '{horario_escolhido}' AND dia = '{dia_escolhido}'")
         agenda = cursor.fetchone()
-
         if not agenda:
-            cursor.execute(f"""INSERT INTO agenda (idAgenda, nome, horario, dia, idUsuario, corte) VALUES ({idAgenda}, '{nome}', '{horario_escolhido}', '{dia_escolhido}', {idUsuario}, '{corte_escolhido}')""")
+            cursor.execute(f"""INSERT INTO agenda (idAgenda, nome, horario, dia, corte, idUsuario) VALUES ({idAgenda}, '{nome}', '{horario_escolhido}', '{dia_escolhido}', '{corte_escolhido}', {idUsuario})""")
             conexao.commit()
             print(f'Muito bem {nome}, processo finalizado. O seu número da agenda é {idAgenda}, guarde-o caso precise remarcar.')
             print('Horário marcado com sucesso, esperamos por você!')
@@ -137,9 +136,8 @@ def marcar(idUsuario, nome, data, horario, corte):
             conexao.commit()
             cursor.execute(f"SELECT COUNT(*) FROM agenda WHERE idUsuario = {idUsuario}")
             quantidade_cortes = cursor.fetchone()[0]
-
             if quantidade_cortes % 3 == 0:
-                print('Parabéns! Você ganhou um desconto de 5% no próximo corte!')
+                print('Parabéns! Você ganhou um desconto de 5% no seu corte!')
                 # Aqui você pode aplicar o desconto ao próximo corte para o usuário
                 # Por exemplo, atualizar um campo na tabela de usuários para marcar o desconto
                 # ou aplicar diretamente na lógica de pagamento

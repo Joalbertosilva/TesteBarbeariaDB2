@@ -14,20 +14,26 @@ create table usuario(
 create table agenda(
     idAgenda integer primary key,
     nome varchar(45),
-    horario varchar(45),
+    horario TIME,
     dia varchar(45),
-    idUsuario integer not null references usuario(idUsuario),
-    corte varchar(45)
+    corte varchar(45),
+    idUsuario integer not null references usuario(idUsuario)
 );
 
 create table horario(
     dia varchar(45),
     horario varchar(45),
-    idUsuario integer not null references usuario(idUsuario)
+    idAgenda integer not null references agenda(idAgenda)
 );
 
 como realizar um inner join entre usuario e horario. onde eu vou receber o idUsuario e ele vai procurar
 
+use Barbearia
+
+SELECT u.idUsuario, a.nome, a.dia, a.horario
+FROM usuario u
+INNER JOIN agenda a ON u.idUsuario = a.idUsuario
+WHERE u.idUsuario = '804'
 
 #por enquanto foi isso de tabela que eu fiz, mas to querendo fazer alterações em horarios
 #mudanças que eu quero fazer ---- adicionar o id do usuario de uma maneira de foreign key, caso necessário, e talvez retirar a chave

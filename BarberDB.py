@@ -2,6 +2,7 @@ from principal import cadastro, login, marcar, remarcar
 from random import randint
 import getpass
 import pyodbc
+import datetime
 def cadastro_user():
     idUsers = []
     idUsuario = randint(1, 1000)

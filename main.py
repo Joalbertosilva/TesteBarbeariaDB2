@@ -68,11 +68,13 @@ def usuario_horario():
 
 def usuario_agenda():
     cursor = conexao.cursor()
-    sql_query = '''
+    usuario = input('Insira o id: ')
+    sql_query = f"""
     SELECT u.idUsuario, a.nome, a.dia, a.horario
     FROM usuario u
     INNER JOIN agenda a ON u.idUsuario = a.idUsuario
-'''
+    WHERE a.dia = '{usuario}'
+"""
     cursor.execute(sql_query)
     resultado = cursor.fetchall()
     columns = [column[0] for column in cursor.description]
