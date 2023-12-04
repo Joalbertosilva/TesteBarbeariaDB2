@@ -9,7 +9,6 @@ dados_conexao = (
 conexao = pyodbc.connect(dados_conexao)
 print()
 print('Conexão realizada!')
-
 cursor = conexao.cursor()
 def cadastro(idUsuario, email, senha, nome):    
     dados_conexao = (
@@ -37,9 +36,9 @@ def cadastro(idUsuario, email, senha, nome):
 def login(email, senha):
     try:
         dados_conexao = (
-            "DRIVER={SQL Server};"
-            "SERVER=DESKTOP-E5PU5HI;"
-            "DATABASE=Barbearia;"
+        "DRIVER={SQL Server};"
+        "SERVER=DESKTOP-E5PU5HI;"
+        "DATABASE=Barbearia;"
         )
         conexao = pyodbc.connect(dados_conexao)
         cursor = conexao.cursor()
@@ -148,12 +147,13 @@ def marcar(idUsuario, nome, data, horario, corte):
     except Exception as e:
         print(f"Ocorreu um erro ao tentar fazer login: {str(e)}")
         return False
+    conexao.close()
 def remarcar(novo_nome, data, horario, id_agenda):
     dados_conexao = (
         "DRIVER={SQL Server};"
         "SERVER=DESKTOP-E5PU5HI;"
         "DATABASE=Barbearia;"
-    )
+        )
     conexao = pyodbc.connect(dados_conexao)
     cursor = conexao.cursor()
     cursor.execute("SELECT dia, horario FROM horario")

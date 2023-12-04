@@ -74,7 +74,7 @@ def usuario_agenda():
     FROM usuario u
     INNER JOIN agenda a ON u.idUsuario = a.idUsuario
     WHERE a.dia = '{usuario}'
-"""
+""" 
     cursor.execute(sql_query)
     resultado = cursor.fetchall()
     columns = [column[0] for column in cursor.description]
@@ -88,6 +88,31 @@ def usuario_agenda():
         print(f"{row[0]:^10} | {row[1]:^20} | {row[2]:^20} | {row[3]:^20}")
 
 
-usuario_agenda()
+def delete():
+    cursor = conexao.cursor()
+    tabela = input('Insira tabela para deletar: ')
+    try:
+        cursor.execute(f"DELETE FROM {tabela}")
+        conexao.commit()
+        print("Registros excluídos com sucesso.")
+    except Exception as e:
+        print(f"Ocorreu um erro ao excluir registros: {str(e)}")
+    finally:
+        cursor.close()
+        conexao.close()
 
+def delete_condicao():
+    cursor = conexao.cursor()
+    tabela = input('Insira tabela para deletar: ')
+    condicao = input('Insira condicao para deletar: ')
+    try:
+        cursor.execute(f"DELETE FROM {tabela} WHERE {condicao}")
+        conexao.commit()
+        print("Dados excluídos com sucesso.")
+    except Exception as e:
+        print(f"Ocorreu um erro ao excluir registros: {str(e)}")
+    finally:
+        cursor.close()
+        conexao.close()
 
+agenda_tabela()

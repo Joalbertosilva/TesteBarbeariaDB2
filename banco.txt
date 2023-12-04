@@ -37,4 +37,4 @@ WHERE u.idUsuario = '804'
 
 #por enquanto foi isso de tabela que eu fiz, mas to querendo fazer alterações em horarios
 #mudanças que eu quero fazer ---- adicionar o id do usuario de uma maneira de foreign key, caso necessário, e talvez retirar a chave
----- primaria da tabela horarios. E tem que mudar o nome dela tbm. Não pode deixar no plural
+---- primaria da tabela horarios. E tem que mudar o nome dela tbm. Não pode deixar no plural 

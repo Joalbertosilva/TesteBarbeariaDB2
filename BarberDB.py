@@ -14,11 +14,13 @@ def cadastro_user():
     email = input('Digite seu e-mail ou nome de usuário: ')
     senha = getpass.getpass(prompt='Crie sua senha: ')
     nome = input('Insira seu nome: ')
+    print()
     cadastro(idUsuario, email, senha, nome)
 
 def login_user():
     email = input('Digite seu e-mail ou nome de usuário: ')
     senha = getpass.getpass(prompt='Digite sua senha: ')
+    print()
     # Verificar se o email e senha correspondem a um usuário registrado
     if login(email, senha):
         marcar_corte()
@@ -35,8 +37,8 @@ def marcar_corte():
     cursor = conexao.cursor()
         
     idUsuario = int(input('''
-    Insira seu id usuario para poder acumular pontos no nosso salão.
-    Quando você atingir a meta de 3 cortes em sequência, receberá um desconto: '''))
+Insira seu id usuario para poder acumular pontos no nosso salão.
+Quando você atingir a meta de 3 cortes em sequência, receberá um desconto: '''))
 
     nome = input('Digite seu nome: ')
 
