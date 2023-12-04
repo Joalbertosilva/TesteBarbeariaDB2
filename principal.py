@@ -136,7 +136,7 @@ def marcar(idUsuario, nome, data, horario, corte):
             cursor.execute(f"SELECT COUNT(*) FROM agenda WHERE idUsuario = {idUsuario}")
             quantidade_cortes = cursor.fetchone()[0]
             if quantidade_cortes % 3 == 0:
-                print('Parabéns! Você ganhou um desconto de 5% no seu corte!')
+                print('Parabéns! Você ganhou um corte grátis!')
                 # Aqui você pode aplicar o desconto ao próximo corte para o usuário
                 # Por exemplo, atualizar um campo na tabela de usuários para marcar o desconto
                 # ou aplicar diretamente na lógica de pagamento

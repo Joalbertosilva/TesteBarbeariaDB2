@@ -2,7 +2,6 @@ from principal import cadastro, login, marcar, remarcar
 from random import randint
 import getpass
 import pyodbc
-import datetime
 def cadastro_user():
     idUsers = []
     idUsuario = randint(1, 1000)
@@ -35,15 +34,17 @@ def marcar_corte():
         )
     conexao = pyodbc.connect(dados_conexao)
     cursor = conexao.cursor()
-        
+    print('Acesso liberado!')
+    print()
     idUsuario = int(input('''
 Insira seu id usuario para poder acumular pontos no nosso salão.
-Quando você atingir a meta de 3 cortes em sequência, receberá um desconto: '''))
+Quando você atingir a meta de 3 cortes em sequência, receberá um corte grátis: '''))
 
     nome = input('Digite seu nome: ')
 
     # Aqui você pode obter o horário e dia escolhidos pelo cliente
     print(f'Muito bem {nome}, agora escolha o serviço e a data!')
+    print()
     corte = input('''\nEsolha um dos serviços abaixo: 
             1. Cabelo, corte normal: R$15
             2. Cabelo + sobrancelha: R$20

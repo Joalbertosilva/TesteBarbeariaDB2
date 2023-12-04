@@ -52,3 +52,18 @@ WHERE u.idUsuario = '804'
 #por enquanto foi isso de tabela que eu fiz, mas to querendo fazer alterações em horarios
 #mudanças que eu quero fazer ---- adicionar o id do usuario de uma maneira de foreign key, caso necessário, e talvez retirar a chave
 ---- primaria da tabela horarios. E tem que mudar o nome dela tbm. Não pode deixar no plural 
+Para realizar um inner join voce tem que definir a tabela com uma letra antes
+
+Nomes das Tabelas: Identifique as tabelas das quais você deseja extrair dados. 
+Por exemplo, se você deseja fazer um INNER JOIN entre as tabelas usuarios e pedidos.
+
+Colunas para a Junção: Determine quais colunas serão usadas para a junção das tabelas.
+ Essas colunas devem conter dados relacionados em ambas as tabelas. 
+ Por exemplo, se ambas as tabelas têm uma coluna idUsuario que representa o mesmo usuário, 
+ você pode usá-la como referência para a junção.
+
+Tipo de JOIN: No caso do INNER JOIN, você estará combinando apenas as linhas que têm valores correspondentes nas duas tabelas.
+
+SELECT u.idUsuario, u.nome, p.idPedido, p.data
+FROM usuarios u
+INNER JOIN pedidos p ON u.idUsuario = p.idUsuario;
