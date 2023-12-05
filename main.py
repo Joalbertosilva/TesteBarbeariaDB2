@@ -7,7 +7,7 @@ dados_conexao = (
 )
 conexao = pyodbc.connect(dados_conexao)
 print()
-print('Conexão realizada!')
+
 
 cursor = conexao.cursor()
 
@@ -68,12 +68,12 @@ def usuario_horario():
 
 def usuario_agenda():
     cursor = conexao.cursor()
-    usuario = input('Insira o id: ')
+    usuario = input('Insira o id usuario: ')
     sql_query = f"""
     SELECT u.idUsuario, a.nome, a.dia, a.horario
     FROM usuario u
     INNER JOIN agenda a ON u.idUsuario = a.idUsuario
-    WHERE a.dia = '{usuario}'
+    WHERE u.idUsuario = '{usuario}'
 """ 
     cursor.execute(sql_query)
     resultado = cursor.fetchall()
@@ -115,4 +115,4 @@ def delete_condicao():
         cursor.close()
         conexao.close()
 
-agenda_tabela()
+

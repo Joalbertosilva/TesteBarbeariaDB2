@@ -1,4 +1,5 @@
 from principal import cadastro, login, marcar, remarcar
+from main import usuario_agenda
 from random import randint
 import getpass
 import pyodbc
@@ -96,38 +97,50 @@ def remarcar_corte():
     horas = cursor.fetchall()
 
     # Se a agenda existe, atualize os dados
-    novo_nome = input('Digite seu nome: ')
-    print("Horários indisponíveis:\n")
-    for hora in horas:
-        dia, horario = hora  # Desempacotando os valores retornados
-        print(f"|{dia} - {horario}|")
-    data = input('''Escolha o dia.
-    1 - Segunda-Feira
-    2 - Terça-Feira
-    3 - Quarta-Feira
-    4 - Quinta-Feira
-    5 - Sexta-Feira
-    6 - Sábado
-    : ''')
-    print()
-    horario = input('''Escolha o horário
-    1 - 08:00
-    2 - 09:00
-    3 - 10:00
-    4 - 11:00
-    5 - 12:00
-    6 - 14:00
-    7 - 15:00   
-    : ''')
-    id_agenda = input('Digite o ID da agenda a ser remarcada: ')
-    remarcar(novo_nome, data, horario, id_agenda)
+    usuario = int(input('Insira o seu idUsuario: '))
+    cursor.execute(f"SELECT TOP 1 idAgenda FROM agenda WHERE idUsuario = {usuario} ORDER BY idAgenda DESC")
+    ultimo_id_agenda = cursor.fetchone()
+
+    if ultimo_id_agenda:
+    # Último idAgenda encontrado para o usuário
+        id_agenda = ultimo_id_agenda[0]
+        print(f"Seu último id de agenda é: {id_agenda}")
+        print()
+        print("Horários indisponíveis:\n")
+        novo_nome = input('Digite seu nome: ')
+        for hora in horas:
+            dia, horario = hora  # Desempacotando os valores retornados
+            print(f"|{dia} - {horario}|")
+        data = input('''Escolha o dia.
+        1 - Segunda-Feira
+        2 - Terça-Feira
+        3 - Quarta-Feira
+        4 - Quinta-Feira
+        5 - Sexta-Feira
+        6 - Sábado
+        : ''')
+        print()
+        horario = input('''Escolha o horário
+        1 - 08:00
+        2 - 09:00
+        3 - 10:00
+        4 - 11:00
+        5 - 12:00
+        6 - 14:00
+        7 - 15:00   
+        : ''')
+        id_agenda = input('Digite o ID da agenda a ser remarcada: ')
+        remarcar(novo_nome, data, horario, id_agenda)
+    else: 
+        print('Usuario não encontrado!')
 while True:
     menu = int(input('''
     Escolha uma opção      
     1. Cadastro
     2. Login
     3. Remarcar
-    4. Sair
+    4. Mostra agenda             
+    5. Sair
     : '''))
 
     if menu == 1:
@@ -137,8 +150,10 @@ while True:
     elif menu == 3:
         remarcar_corte()
     elif menu == 4:
+        usuario_agenda()
+    elif menu == 5:
         print('Atendimento encerrado, volte sempre!')
         break;
-    elif menu >= 5:
+    elif menu >= 6:
         print('Opção inválida.') 
 
