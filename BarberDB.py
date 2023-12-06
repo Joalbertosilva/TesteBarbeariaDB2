@@ -1,5 +1,5 @@
 from principal import cadastro, login, marcar, remarcar
-from main import usuario_agenda, delete_condicao, delete
+from main import usuario_agenda, delete_condicao, delete, tabela
 from random import randint
 import getpass
 import pyodbc
@@ -133,33 +133,43 @@ def remarcar_corte():
         remarcar(novo_nome, data, horario, id_agenda)
     else: 
         print('Usuario não encontrado!')
-while True:
-    menu = int(input('''
-    Escolha uma opção      
-    1. Cadastro
-    2. Login
-    3. Remarcar
-    4. Mostrar agenda             
-    5. Deletar dados especificos
-    6. Deleta toda tabela
-    7. Sair
-    : '''))
 
-    if menu == 1:
-        cadastro_user()
-    elif menu == 2:
-        login_user()
-    elif menu == 3:
-        remarcar_corte()
-    elif menu == 4:
-        usuario_agenda()
-    elif menu == 5:
-        delete_condicao()
-    elif menu == 6:
-        delete()
-    elif menu == 7:
-        print('Atendimento encerrado, volte sempre!')
-        break;
-    elif menu >= 8:
-        print('Opção inválida.') 
+def menu():
+    while True:
+        try:
+            menu_opcao = int(input('''
+            Escolha uma opção:      
+            1. Cadastro
+            2. Login
+            3. Remarcar
+            4. Mostrar agenda 
+            5. Mostrar tabelas            
+            6. Deletar dados específicos
+            7. Deletar toda tabela
+            8. Sair
+            : '''))
 
+            if menu_opcao == 1:
+                cadastro_user()
+            elif menu_opcao == 2:
+                login_user()
+            elif menu_opcao == 3:
+                remarcar_corte()
+            elif menu_opcao == 4:
+                usuario_agenda()
+            elif menu_opcao == 5:
+                tabela()
+            elif menu_opcao == 6:
+                delete_condicao()
+            elif menu_opcao == 7:
+                delete()
+            elif menu_opcao == 8:
+                print('Atendimento encerrado, volte sempre!')
+                break
+            else:
+                print('Opção inválida.') 
+        except ValueError:
+            print("Por favor, insira um número inteiro válido.")
+            print()
+
+menu()

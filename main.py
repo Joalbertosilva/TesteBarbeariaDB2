@@ -19,11 +19,18 @@ def print_table(rows, headers):
     for row in rows:
         print(' | '.join("{:{}}".format(r, col_width[i]) for i, r in enumerate(row)))
 
-def usuario_tabela():
-    cursor.execute('SELECT * FROM usuario')
-    columns = [column[0] for column in cursor.description]
-    results = cursor.fetchall()
-    print_table(results, columns)
+def tabela():
+    while True:
+            escolha = input('Escreva a tabela que você deseja visualizar [usuario/agenda/horario]: ')
+            
+            if escolha.lower():
+                cursor.execute(f"SELECT * FROM {escolha}")
+                columns = [column[0] for column in cursor.description]
+                results = cursor.fetchall()
+                print_table(results, columns)
+                break
+            else:
+                pass
 
 # Fechando conexão com o banco de dados
 def agenda_tabela():
@@ -147,3 +154,4 @@ Escolha S para deletar através do idAgenda, ou N para deletar todos os registro
             conexao.close()
     else:
         pass
+
