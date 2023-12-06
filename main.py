@@ -22,7 +22,7 @@ def print_table(rows, headers):
 def tabela():
     while True:
             escolha = input('Escreva a tabela que você deseja visualizar [usuario/agenda/horario]: ')
-            
+            print()
             if escolha.lower():
                 cursor.execute(f"SELECT * FROM {escolha}")
                 columns = [column[0] for column in cursor.description]
