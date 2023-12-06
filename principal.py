@@ -1,6 +1,6 @@
 import pyodbc
 from random import randint
-import getpass
+
 dados_conexao = (
     "DRIVER={SQL Server};"
     "SERVER=DESKTOP-E5PU5HI;"

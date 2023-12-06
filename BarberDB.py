@@ -1,5 +1,5 @@
 from principal import cadastro, login, marcar, remarcar
-from main import usuario_agenda
+from main import usuario_agenda, delete_condicao, delete
 from random import randint
 import getpass
 import pyodbc
@@ -106,8 +106,8 @@ def remarcar_corte():
         id_agenda = ultimo_id_agenda[0]
         print(f"Seu último id de agenda é: {id_agenda}")
         print()
-        print("Horários indisponíveis:\n")
         novo_nome = input('Digite seu nome: ')
+        print("Horários indisponíveis:\n")
         for hora in horas:
             dia, horario = hora  # Desempacotando os valores retornados
             print(f"|{dia} - {horario}|")
@@ -139,8 +139,10 @@ while True:
     1. Cadastro
     2. Login
     3. Remarcar
-    4. Mostra agenda             
-    5. Sair
+    4. Mostrar agenda             
+    5. Deletar dados especificos
+    6. Deleta toda tabela
+    7. Sair
     : '''))
 
     if menu == 1:
@@ -152,8 +154,12 @@ while True:
     elif menu == 4:
         usuario_agenda()
     elif menu == 5:
+        delete_condicao()
+    elif menu == 6:
+        delete()
+    elif menu == 7:
         print('Atendimento encerrado, volte sempre!')
         break;
-    elif menu >= 6:
+    elif menu >= 8:
         print('Opção inválida.') 
 
