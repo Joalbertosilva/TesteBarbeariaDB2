@@ -155,3 +155,25 @@ Escolha S para deletar através do idAgenda, ou N para deletar todos os registro
     else:
         pass
 
+def delete_usuario():
+    dados_conexao = (
+    "DRIVER={SQL Server};"
+    "SERVER=DESKTOP-E5PU5HI;"
+    "DATABASE=Barbearia;"
+    )
+    conexao = pyodbc.connect(dados_conexao)
+    cursor = conexao.cursor()
+    usuario = int(input('Insira o seu idUsuario: '))
+    print()
+    try:
+        cursor.execute("DELETE FROM horario WHERE idUsuario = ?", usuario)
+        cursor.execute("DELETE FROM agenda WHERE idUsuario = ?", usuario)
+        cursor.execute("DELETE FROM usuario WHERE idUsuario = ?", usuario)
+        conexao.commit()
+        print("Dados excluídos com sucesso.")
+    except Exception as e:
+        print(f"Ocorreu um erro ao excluir registros: {str(e)}")
+    finally:
+        cursor.close()
+        conexao.close()
+

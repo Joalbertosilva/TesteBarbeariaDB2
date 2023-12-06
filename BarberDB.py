@@ -1,5 +1,5 @@
 from principal import cadastro, login, marcar, remarcar
-from main import usuario_agenda, delete_condicao, delete, tabela
+from main import usuario_agenda, delete_condicao, delete, tabela, delete_usuario
 from random import randint
 import getpass
 import pyodbc
@@ -146,7 +146,8 @@ def menu():
             5. Mostrar tabelas            
             6. Deletar dados específicos
             7. Deletar toda tabela
-            8. Sair
+            8. Deletar usuario
+            9. Sair
             : '''))
 
             if menu_opcao == 1:
@@ -164,10 +165,12 @@ def menu():
             elif menu_opcao == 7:
                 delete()
             elif menu_opcao == 8:
-                print('Atendimento encerrado, volte sempre!')
-                break
+                delete_usuario()
+            elif menu_opcao == 9:
+                print("Programa encerrado. Volte sempre!")
             else:
                 print('Opção inválida.') 
+                
         except ValueError:
             print("Por favor, insira um número inteiro válido.")
             print()

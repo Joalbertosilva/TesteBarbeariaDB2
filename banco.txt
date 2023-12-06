@@ -38,7 +38,8 @@ create table agenda(
 create table horario(
     dia varchar(45),
     horario varchar(45),
-    idAgenda integer not null references agenda(idAgenda)
+    idAgenda integer not null references agenda(idAgenda),
+    idUsuario integer not null references usuario(idUsuario)
 );
 
 como realizar um inner join entre usuario e horario. onde eu vou receber o idUsuario e ele vai procurar
