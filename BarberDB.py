@@ -168,6 +168,7 @@ def menu():
                 delete_usuario()
             elif menu_opcao == 9:
                 print("Programa encerrado. Volte sempre!")
+                break;
             else:
                 print('Opção inválida.') 
                 
